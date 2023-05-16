@@ -1,0 +1,5 @@
+<form action = " http://127.0.0.1:8000/names/ " method = "post">
+{% csrf_token %}
+{{StudentForm.as_p}}
+<input type="submit" value="Submit">
+</form>
