@@ -1,0 +1,119 @@
+#!/bin/bash
+
+## Install Nodejs 14.x
+node_js() {
+    curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+    sudo apt install -y nodejs
+}
+
+## Clone_Repo
+
+git_repo() {
+    git clone https://github.com/omarmohsen/pern-stack-example.git
+}
+
+## Create an IP config.file for the local machine to use static address 
+## My Current Ip Address is 10.0.2.15 
+
+IP_Config() { 
+    sudo tee /etc/netplan/01-network-manager-all.yaml <<EOF
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    enp0s3:
+      dhcp4: false
+      dhcp6: false
+      addresses: [10.0.2.15/24]
+      routes:
+        - to: default
+          via: 10.0.2.2
+      nameservers:
+          addresses: [192.168.1.1,172.17.0.1]
+EOF
+    sudo netplan apply
+    sudo systemctl restart NetworkManager
+}
+
+
+add_user_node() {
+    sudo adduser node
+}
+
+retrieve_IP() {
+    IP_ADDRESS=$(ip -4 addr show enp0s3 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+}
+
+## Installing Postgresql 
+
+installing_postgresql(){
+    sudo apt update
+    sudo apt install postgresql postgresql-contrib
+    sudo systemctl start postgresql
+    sudo systemctl enable postgresql
+    sudo systemctl status postgresql
+    sudo -u postgres psql -c "CREATE USER saady WITH PASSWORD 'mido2023';"
+    sudo -u postgres createdb demo_db
+    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE demo_db TO saady;"
+}
+
+
+## Run UI tests 
+
+RUN_UI_tests() {
+    cd pern-stack-example
+    cd ui
+    sudo apt install npm
+    npm run test 
+}
+
+## Build UI 
+
+BUILD_UI() {
+    npm install
+    npm run build
+}
+
+## modify the ENVIRONMENT to add 'demo' environment within the if statement
+
+add_env() {
+    cd ..
+    cd api
+    npm install webpack
+    npm audit fix
+    sed -i "/if (env === "demo") {/a\    process.env.HOST = "'"$IP_ADDRESS"'";\n    process.env.PGUSER = "saady";\n    process.env.PGPASSWORD = "mido2023";\n    process.env.PGHOST = "'"$IP_ADDRESS"'";\n    process.env.PGPORT = "5432";\n    process.env.PGDATABASE = "demo_db";" webpack.config.js
+    ENVIRONMENT=demo npm run build
+}
+
+## start the application
+
+deploy_app() {
+    cd ..
+    
+    cp -r api/dist/* .
+    cp api/swagger.css .
+    npm install pg
+    node api.bundle.js
+}
+
+
+node_js
+
+git_repo
+
+IP_Config
+
+add_user_node
+
+retrieve_IP
+
+installing_postgresql
+
+RUN_UI_tests
+
+BUILD_UI
+
+add_env
+
+deploy_app
+
