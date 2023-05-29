@@ -1,0 +1,29 @@
+version: '3'
+services:
+  ghost:
+    image: ghost:1-alpine
+    ports:
+      - "2030:2368"
+    restart: always
+    environment:
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: root
+      database__connection__password: mido2023
+      database__connection__database: database1
+      
+    
+    volumes:
+      - ghost-content:/var/lib/ghost/content
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: mido2023
+      MYSQL_DATABASE: db
+    volumes:
+      - database-data:/var/lib/mysql
+
+volumes:
+  ghost-content:
+  database-data:
