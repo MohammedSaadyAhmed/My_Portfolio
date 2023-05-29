@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  database:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: mido2023
+      MYSQL_DATABASE: demo-db
+    volumes:
+      - database_data:/var/lib/mysql
+
+  app:
+    build: .
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
+    volumes:
+      - app_data:/usr/src/app/data
+
+volumes:
+  database_data:
+  app_data:
