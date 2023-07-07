@@ -114,6 +114,7 @@ resource "aws_instance" "terraform1_instance" {
   subnet_id = aws_subnet.subnet-1.id
   security_groups = [aws_security_group.terraform1_security_group.id]
   key_name = "sprints-key"
+  associate_public_ip_address = true
   user_data = file("install-apache.sh")
 
   tags = {
