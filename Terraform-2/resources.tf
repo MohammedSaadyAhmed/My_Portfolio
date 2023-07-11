@@ -1,5 +1,5 @@
 resource "aws_vpc" "vpc1" {
-  cidr_block = var.CIDRS["vpc-cidr"]
+  cidr_block = var.CIDRS["vpc-cidr"]  #(10.0.0.0/16)
   tags = {
     "Name" = "terraform1-vpc"
     project = "sprints"
