@@ -1,7 +1,7 @@
 resource "aws_vpc" "vpc1" {
   cidr_block = var.CIDRS["vpc-cidr"]        #(10.0.0.0/16)
   tags = {
-    "Name" = "terraform1-vpc"
+    "Name" = var.Names["vpc"]
     project = "sprints"
   }
 }
@@ -9,7 +9,7 @@ resource "aws_vpc" "vpc1" {
 resource "aws_internet_gateway" "igw" {
     vpc_id = aws_vpc.vpc1.id
     tags = { 
-      Name = "IGW" 
+      Name = var.Names["igw"]
     }
   
 }
@@ -18,14 +18,14 @@ resource "aws_subnet" "Public_Subnet" {
     vpc_id     = aws_vpc.vpc1.id 
     cidr_block= var.CIDRS["public-subnet-cidr"]         #(10.0.0.0/24)
     tags = {
-      Name = "terraform1-public-subnet"
+      Name = var.Names["public-subnet"]
   }
 } 
 resource "aws_subnet" "Private_Subnet" {
     vpc_id    = aws_vpc.vpc1.id
     cidr_block= var.CIDRS["private-subnet-cidr"]          #(10.0.1.0/24)
     tags = {
-      Name  = "terraform1-private-subnet"
+      Name  = var.Names["private-subnet"]
   }
 } 
 
@@ -41,7 +41,7 @@ resource "aws_nat_gateway" "ngw" {
   subnet_id     = aws_subnet.Public_Subnet.id
 
   tags = {
-    Name = "NGW"
+    Name = var.Names["ngw"]
   }
 }
 
@@ -143,7 +143,7 @@ resource "aws_instance" "terraform1_Public_instance" {
   associate_public_ip_address = true
   
   tags = {
-    "Name" = "ec2-public-terraform1"
+    "Name" = var.Names["public-instance"]
   }
 }
 
@@ -156,12 +156,9 @@ resource "aws_instance" "terraform1_Private_instance" {
   user_data = ${file("install-apache.sh")}
 
   tags = {
-    "Name" = "ec2-private-terraform1"
+    "Name" = var.Names["private-instance"]
   }
 }
 
 
-# print the ec2's public ipv4 address
-output "public_ipv4_address" {
-  value = aws_instance.terraform1_instance.id
-}
+
