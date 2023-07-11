@@ -8,3 +8,18 @@ variable "CIDRS" {
     "all traffic"         = "0.0.0.0/0"
   }
 }
+
+
+variable "Names" {
+  description = "Tag Names "
+  type        = map 
+  default     = {
+    "vpc"            = "terraform1-vpc"
+    "public-subnet"  = "terraform1-public-subnet"
+    "private-subnet" = "terraform1-private-subnet"
+    "igw"            = "IGW" 
+    "ngw"            = "NGW" 
+    "public-instance"  = "ec2-public-terraform1"
+    "private-instance"  = "ec2-private-terraform1"
+  }
+}
