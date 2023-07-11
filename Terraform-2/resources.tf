@@ -9,7 +9,7 @@ resource "aws_vpc" "vpc1" {
 resource "aws_internet_gateway" "igw" {
     vpc_id = aws_vpc.vpc1.id
     tags = { 
-            Name = "IGW" 
+      Name = "IGW" 
     }
   
 }
@@ -18,14 +18,14 @@ resource "aws_subnet" "Public_Subnet" {
     vpc_id     = aws_vpc.vpc1.id 
     cidr_block= var.CIDRS["public-subnet-cidr"]         #(10.0.0.0/24)
     tags = {
-        Name = "terraform1-public-subnet"
+      Name = "terraform1-public-subnet"
   }
 } 
 resource "aws_subnet" "Private_Subnet" {
     vpc_id    = aws_vpc.vpc1.id
     cidr_block= var.CIDRS["private-subnet-cidr"]          #(10.0.1.0/24)
     tags = {
-        Name  = "terraform1-private-subnet"
+      Name  = "terraform1-private-subnet"
   }
 } 
 
