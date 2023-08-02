@@ -4,8 +4,8 @@
 resource "aws_vpc" "vpc1" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    "Name" = "terraform1-vpc"
-    project = "sprints"
+    "Name"   = "terraform1-vpc"
+    project  = "sprints"
   }
 }
 
@@ -15,9 +15,9 @@ resource "aws_vpc" "vpc1" {
 
 resource "aws_subnet" "subnet-1" {
     vpc_id     = aws_vpc.vpc1.id
-    cidr_block= "10.0.0.0/24"
+    cidr_block = "10.0.0.0/24"
     tags = {
-        Name = "terraform1-subnet"
+        Name   = "terraform1-subnet"
   }
 } 
 
@@ -27,7 +27,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 resource "aws_route_table" "terraform-rt" {
-  vpc_id = aws_vpc.vpc1.id
+  vpc_id       = aws_vpc.vpc1.id
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
@@ -48,11 +48,11 @@ resource "aws_security_group" "terraform1_security_group" {
   vpc_id      = aws_vpc.vpc1.id
 
   ingress {
-    description = "HTTPS"
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "HTTPS"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
 
@@ -97,11 +97,11 @@ data "aws_ami" "ubuntu" {
   }
 
   filter {
-    name = "virtualization-type"
+    name   = "virtualization-type"
     values = ["hvm"]
   }
 
-  owners = ["099720109477"]
+  owners   = ["099720109477"]
 }
 
 
@@ -109,13 +109,13 @@ data "aws_ami" "ubuntu" {
 # launch the ec2 instance and install apache
 
 resource "aws_instance" "terraform1_instance" {
-  ami = "ami-053b0d53c279acc90"
-  instance_type = "t2.micro"
-  subnet_id = aws_subnet.subnet-1.id
+  ami             = "ami-053b0d53c279acc90"
+  instance_type   = "t2.micro"
+  subnet_id       = aws_subnet.subnet-1.id
   security_groups = [aws_security_group.terraform1_security_group.id]
-  key_name = "sprints-key"
+  key_name        = "sprints-key"
   associate_public_ip_address = true
-  user_data = file("install-apache.sh")
+  user_data       = file("install-apache.sh")
 
   tags = {
     "Name" = "ec2-terraform1"
