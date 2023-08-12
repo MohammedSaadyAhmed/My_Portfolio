@@ -1,0 +1,30 @@
+- name: Install Nginx
+  hosts: nginx
+  become: yes
+  tasks:
+    - name: update
+      apt:
+        upgrade: yes
+        update_cache: yes
+   
+
+    - name: Install nginx package
+      apt:
+        name: nginx
+        state: present
+
+
+
+    - name: Copy index.html
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+    
+
+    - name: Configure port 8090
+      become: true
+      lineinfile:
+        path: /etc/nginx/sites-available/default
+        regexp: '^(?P<group>.*listen.*) 80;'
+        line: '\g<1> 8090;'
+        backrefs: yes
