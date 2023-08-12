@@ -1,0 +1,28 @@
+- name: Clone the repository and deploy app
+  hosts: servers
+  become: yes
+  tasks:
+    - name: Clone the repository
+      git:
+        repo: https://github.com/sabreensalama/dockerize-node-app-task.git
+        dest: /app
+        version: main
+
+    
+    - name: install Node.js and npm 
+      apt:
+        name: 
+          - nodejs
+          - npm
+        state: present
+        update_cache: yes
+      
+    - name: install application dependences
+      npm:
+        path: /app
+        state: latest
+
+    - name: run the application
+      command: npm start &
+      args:
+        chdir: /app
