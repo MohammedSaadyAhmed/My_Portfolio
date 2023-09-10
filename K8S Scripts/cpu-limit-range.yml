@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-limit-range
+spec:
+  # the limits section is used to set the maximum amount of resources that a container can use
+  limits:
+    -default:
+      # the default CPU limit is 1 core
+      # limits are applied to containers that do not have a CPU limit set in their spec
+      cpu: "1"
+    -defaultRequest:
+      # the default CPU request is 0.5 core
+      # "CPU requests are used to determine the minimum amount of CPU that a container will use when it is run"
+      cpu: "0.5"
+    # the type of the limit range is Container
+    type: Container

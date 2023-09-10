@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: RecourceQuota
+metadata:
+  name: compute-resources
+  # the quota is applied to the "dev" namespace
+  namespace: dev
+spec:
+  # the hard section is used to set the maximum amount of resources that a namespace can use
+  hard:
+    # the maximum pods that a namespace can use is 10
+    pods: "10"
+    # the maximum amount of CPU that a namespace can use is 4 core
+    limits.cpu: "4"
+    # the maximum amount of memory that a namespace can use is 5Gi
+    limits.memory: 5Gi
+    requests.cpu: "10"
+    requests.memory: 10Gi

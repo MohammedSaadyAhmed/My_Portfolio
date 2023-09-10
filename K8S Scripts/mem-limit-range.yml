@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: memory-limit-range
+spec:
+  # the limits section is used to set the maximum amount of resources that a container can use
+  limits:
+    -default:
+      # the default memory limit is 512Mi
+      # limits are applied to containers that do not have a memory limit set in their spec
+      memory: 512Mi
+    -defaultRequest:
+      # the default memory request is 256Mi
+      # "memory requests are used to determine the minimum amount of memory that a container will use when it is run"
+      memory: 256Mi 
+    # the type of the limit range is Container
+    type: Container

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-demo
+spec:
+  containers:
+    - name: memory-demo-ctr
+      image: polinux/stress
+      resources:
+        # the limits section is used to set the maximum amount of resources that a container can use
+        limits:
+          # the maximum amount of memory that a container can use is 120Mi
+          memory: "120Mi"
+        requests:
+          # the requests section is used to set the minimum amount of resources that a container can use
+          memory: "100Mi"
+      command: ["stress"]
+      # the container will run in the "stress" mode and will use 150Mi of memory
+      args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]

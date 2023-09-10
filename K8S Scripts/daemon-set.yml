@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+# the kind of object we are creating is a DaemonSet
+kind: DaemonSet
+metadata:
+  # the name of the DaemonSet
+  name: monitoring-agent
+# the specification of the DaemonSet
+spec:
+  # the selector is used to identify the pods that are part of the DaemonSet
+  selector:
+    matchLabels:
+      app: monitoring-agent
+  # the template is used to create the pods that are part of the DaemonSet
+  template:
+    metadata:
+      labels:
+        app: monitoring-agent
+    spec:
+      containers:
+        # the name of the container
+        - name: monitoring-agent
+          # the image we want to use
+          image: monitoring-agent

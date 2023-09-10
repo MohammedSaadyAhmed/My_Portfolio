@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+# tolerations: is a label that is used to mark a "pod" as schedulable (the pod can be scheduled on this node) and the tolerations is used to allow the pod to be scheduled on the node. 
+tolerations:
+  # key: is the key of the taint that we want to tolerate (Node)
+  - key: "app"
+    operator: "Equal"
+    # value: is the value of the taint that we want to tolerate
+    value: "blue"
+    effect: "NoSchedule"

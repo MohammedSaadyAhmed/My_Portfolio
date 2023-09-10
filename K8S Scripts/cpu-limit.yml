@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-demo
+spec:
+  containers:
+    - name: cpu-demo-ctr
+      image: vish/stress
+      resources:
+      # the limits section is used to set the maximum amount of resources that a container can use
+        limits:
+        # the maximum amount of CPU that a container can use is 1 core
+          cpu: "0.5"
+      args:
+        # the container will run in the "stress" mode and will use 2 cores
+        - -cpus
+        - "2"
