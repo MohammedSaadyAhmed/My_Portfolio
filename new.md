@@ -30,6 +30,7 @@ This tool provides secure, automated backup and restore functionality for Linux 
 #### **Usage**:
 ```bash
 ./backup.sh <source_directory> <backup_directory> <encryption_key> <days>
+```
 
 
 #### **Parameters**:
