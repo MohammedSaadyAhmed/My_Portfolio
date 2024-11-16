@@ -32,11 +32,11 @@ This tool provides secure, automated backup and restore functionality for Linux 
 ./backup.sh <source_directory> <backup_directory> <encryption_key> <days>
 
 
-Parameters:
-<source_directory>: The directory containing the files to be backed up.
-<backup_directory>: The directory where backups will be stored.
-<encryption_key>: A key used to encrypt the backup.
-<days>: Backup files modified in the last n days.
+#### **Parameters**:
+	- <source_directory>: The directory containing the files to be backed up0.
+	- <backup_directory>: The directory where backups will be stored.
+	- <encryption_key>: A key used to encrypt the backup.
+	- <days>: Backup files modified in the last n days.
 Example:
 bash
 Copy code
