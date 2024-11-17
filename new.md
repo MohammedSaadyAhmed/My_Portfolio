@@ -94,8 +94,4 @@ Verify the job:
 crontab -l
 ```
 
----
 
-### **Error Handling**
-	- If invalid parameters are provided, the scripts will display a detailed error message and exit.
-	- Ensure all directories exist and the encryption key is valid before running the scripts.
